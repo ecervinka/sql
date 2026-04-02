@@ -106,6 +106,8 @@ Please do not pick the exact same tables that I have already diagrammed. For exa
 	- <img src="./images/01_farmers_market_conceptual_model.png" width="600">
 - The column names can be found in a few spots (DB Schema window in the bottom right, the Database Structure tab in the main window by expanding each table entry, at the top of the Browse Data tab in the main window)
 
+![My Image](images/Cervinka_FarmersMarket_Diagram_SQL.jpg)
+
 ***
 
 ## Section 2:
@@ -175,7 +177,7 @@ To insert the new row use VALUES, specifying the value you want for each column:
 
 <div align="center">-</div>
 
-#### Date
+#### Date - not required for submission 
 1. Get the customer_id, month, and year (in separate columns) of every purchase in the customer_purchases table.
    
 **HINT**: you might need to search for strfrtime modifers sqlite on the web to know what the modifers for month and year are!
@@ -209,5 +211,12 @@ Consider, for example, concepts of fariness, inequality, social structures, marg
 
 
 ```
-Your thoughts...
+Reading this article prompted me to think about a recent experience I had flying back from Columbus, Ohio after a conference, which solidified some of the concerns I have about the ethics and deployment of new digital systems. Due to the TSA shutdown, among other operational issues, security lines were massive, and CLEAR employees were circulating through the crowd offering travellers a way to bypass the queue. Their pitch implied that providing some personal information and a facial scan, for free, would ease the delay, however, at the final stage of sign-up, the employees revealed that the service would cost $200. This encounter reminded me of how popular these sorts of convenience bypasses have become, where individuals can pay to skip a line, receive priority service (e.g., food delivery), or gain access denied to others.
+
+Though these systems and programs are framed as user-friendly and efficiency-enhancing, they are fundamentally biased toward those of higher socioeconomic status. The ability to pay becomes a prerequisite for access, time savings, and sometimes even user dignity, reshaping public services into tiered experiences dictated by purchasing power. This embedded bias extends beyond these convenience services into state and institutional infrastructures, as shown by the unrolling of Real IDs, or Pakistan’s digital ID system, as discussed in the article. 
+
+The article also brought up my broader concerns about surveillance capitalism and data commodification. There are constant news articles and lawsuits about how consumer data is continuously collected, analyzed, and sold to influence behaviour, without individuals understanding the scope of their consent. This is of special concern to me as a geographer who uses digital technologies and GPS tracking for her research. Through conversations with a friend working in marketing and data collection, I have become very aware of how much personal information is harvested by tech companies, and subsequently used for behavioural influence, yet marketed as convenience. 
+
+The proliferation of AI technologies further complicates things, as AI datasets, particularly those of LLMS are trained on datasets that reflect existing social inequalities and assumptions, similar to Pakistan’s system that assumes a nuclear family structure. As the implementation and integration of AI technologies grow, they continue to reproduce these biases, which disproportionately impacts marginalized groups, especially women, as discussed in other books I’ve read such as Searches: Selfhood in the Digital Age by Vauhini Vara and Invisible Women by Caroline Criado-Perez. As shown in the article with the phrase “Sorry sir, the computer doesn’t allow it,” these programs can culminate in a troubling abdication of human judgement to automated systems. While the Pakistan ID system may not implement AI, there is a broader pattern of technology being treated as an all-knowing authority rather than a tool designed for human needs. Anyone who has worked with technology knows this all too well. Poorly designed systems (i.e., the cash system at a retail job, or an online form) can sometimes leave customer service workers unable to assist the human being standing directly in front of them due to software constraints. As digital systems grow more complex, and integrated with everyday life, they produce the aforementioned redundancies and exclusion, instead of efficiency, and often fail to address the complexity and nuances of human life. 
+
 ```
