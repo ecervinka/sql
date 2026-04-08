@@ -7,8 +7,8 @@
 /* 1. Write a query that returns everything in the customer table. */
 --QUERY 1
 
-
-
+SELECT *
+FROM customer;
 
 --END QUERY
 
@@ -17,8 +17,10 @@
 sorted by customer_last_name, then customer_first_ name. */
 --QUERY 2
 
-
-
+SELECT *
+FROM customer
+ORDER BY customer_last_name,  customer_first_name
+LIMIT 10;
 
 --END QUERY
 
@@ -28,11 +30,21 @@ sorted by customer_last_name, then customer_first_ name. */
 Limit to 25 rows of output. */
 --QUERY 3
 
+SELECT *
+FROM customer_purchases
+WHERE  product_id = 4 
+OR product_id = 9;
 
+-- product ID 9 does not exist? --
+--adding limit of 25 rows-- 
 
+SELECT *
+FROM customer_purchases
+WHERE  product_id = 4 
+OR product_id = 9
+LIMIT 25; 
 
 --END QUERY
-
 
 
 /*2. Write a query that returns all customer purchases and a new calculated column 'price' (quantity * cost_to_customer_per_qty), 
@@ -43,8 +55,20 @@ Limit to 25 rows of output.
 */
 --QUERY 4
 
+SELECT *,
+	(quantity * cost_to_customer_per_qty) AS price
+FROM customer_purchases
+WHERE customer_id BETWEEN 8 AND 10
+LIMIT 25; 
 
+--or, using the >=< signs--
 
+SELECT *,
+	(quantity * cost_to_customer_per_qty) AS price
+FROM customer_purchases
+WHERE customer_id >=8 
+	AND customer_id <=10
+LIMIT 25; 
 
 --END QUERY
 
@@ -56,8 +80,14 @@ columns and add a column called prod_qty_type_condensed that displays the word �
 if the product_qty_type is “unit,” and otherwise displays the word “bulk.” */
 --QUERY 5
 
+SELECT 
+	product_id, 
+	product_name,
+	CASE WHEN product_qty_type = 'unit'  THEN 'unit'
+	ELSE 'bulk'
+	END as prod_qty_type
 
-
+FROM product;
 
 --END QUERY
 
@@ -67,8 +97,15 @@ add a column to the previous query called pepper_flag that outputs a 1 if the pr
 contains the word “pepper” (regardless of capitalization), and otherwise outputs 0. */
 --QUERY 6
 
+SELECT product_id, product_name,
+	CASE WHEN product_qty_type = 'unit'  THEN 'unit'
+	ELSE 'bulk'
+	END as prod_qty_type
 
-
+,CASE WHEN product_name LIKE '%pepper%' THEN 1
+	ELSE 0
+	END as pepper_flag
+FROM product;
 
 --END QUERY
 
@@ -79,8 +116,12 @@ vendor_id field they both have in common, and sorts the result by market_date, t
 Limit to 24 rows of output. */
 --QUERY 7
 
-
-
+SELECT *
+FROM vendor
+INNER JOIN vendor_booth_assignments
+	ON vendor.vendor_id = vendor_booth_assignments.vendor_id
+ORDER BY  market_date,  vendor_name
+LIMIT 24;
 
 --END QUERY
 
@@ -93,8 +134,17 @@ Limit to 24 rows of output. */
 at the farmer’s market by counting the vendor booth assignments per vendor_id. */
 --QUERY 8
 
+ SELECT COUNT(vendor_id) as num_of_rentals1
+ FROM vendor_booth_assignments;
 
+--not grouped by vendor id--
 
+SELECT vendor_id,
+	COUNT (vendor_id) as num_of_rentals2
+FROM vendor_booth_assignments
+GROUP BY vendor_id;
+
+ --vendor_id of 2,5,6 do not exist in vendor_booth_assignments so the final table makes sense--
 
 --END QUERY
 
@@ -106,8 +156,58 @@ of customers for them to give stickers to, sorted by last name, then first name.
 HINT: This query requires you to join two tables, use an aggregate function, and use the HAVING keyword. */
 --QUERY 9
 
+-- joining the tables with customer_id-- 
+SELECT *
+FROM customer
+INNER JOIN customer_purchases
+	ON customer.customer_id = customer_purchases.customer_id
+ORDER BY  customer_last_name, customer_first_name;
 
 
+--selecting the relevant columns and using table aliases -- 
+SELECT 
+    c.customer_first_name,
+    c.customer_last_name,
+    c.customer_id,
+    cp.quantity,
+    cp.cost_to_customer_per_qty
+FROM customer AS c
+INNER JOIN customer_purchases AS cp
+    ON c.customer_id = cp.customer_id
+ORDER BY c.customer_last_name, c.customer_first_name;
+
+-- now adding the sum to determine the purchase totals
+--,SUM(quantity*cost_to_customer_per_qty) as total_spend
+--HAVING total_spend > 2000
+
+-- final query 
+SELECT 
+    c.customer_first_name,
+    c.customer_last_name,
+    c.customer_id,
+    cp.quantity,
+    cp.cost_to_customer_per_qty,
+    SUM (cp.quantity * cp.cost_to_customer_per_qty) AS total_spend
+FROM customer AS c
+INNER JOIN customer_purchases AS cp
+    ON c.customer_id = cp.customer_id
+GROUP BY c.customer_last_name, c.customer_first_name
+HAVING total_spend > 2000
+ORDER BY c.customer_id, c.customer_last_name, c.customer_first_name;
+
+
+--checking results without >2000 and order by--
+SELECT 
+    c.customer_first_name,
+    c.customer_last_name,
+    c.customer_id,
+    cp.quantity,
+    cp.cost_to_customer_per_qty,
+    SUM (cp.quantity * cp.cost_to_customer_per_qty) AS total_spend
+FROM customer AS c
+INNER JOIN customer_purchases AS cp
+    ON c.customer_id = cp.customer_id
+GROUP BY c.customer_last_name, c.customer_first_name
 
 --END QUERY
 
@@ -125,6 +225,26 @@ VALUES(col1,col2,col3,col4,col5)
 */
 --QUERY 10
 
+-- vendor_id, vendor_name, vendor_type, vendor_owner_first_name, vendor_owner_last_name - from vendor table
+-- will be 10, Thomass Superfood Store, a Fresh Focused store, Thomas, Rosenthal
+
+DROP TABLE IF EXISTS temp.new_vendor;
+
+--creating the new table
+CREATE TABLE temp.new_vendor AS
+SELECT *
+FROM vendor;
+
+--inserting the values in 
+INSERT INTO temp.new_vendor
+VALUES(10,
+	'Thomass Superfood Store', 
+	'a Fresh Focused store', 
+	'Thomas',
+	'Rosenthal');
+	
+--checking work - yay it shows up!!!!
+SELECT * FROM temp.new_vendor;
 
 
 
