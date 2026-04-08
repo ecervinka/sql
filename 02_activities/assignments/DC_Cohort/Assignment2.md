@@ -47,8 +47,11 @@ There are several tools online you can use, I'd recommend [Draw.io](https://www.
 
 **HINT:** You do not need to create any data for this prompt. This is a conceptual model only. 
 
+![My Image](images/Cervinka_BookSQL1.png)
+
 #### Prompt 2
 We want to create employee shifts, splitting up the day into morning and evening. Add this to the ERD.
+![My Image](images/Cervinka_BookSQL_Shifts.png)
 
 #### Prompt 3
 The store wants to keep customer addresses. Propose two architectures for the CUSTOMER_ADDRESS table, one that will retain changes, and another that will overwrite. Which is type 1, which is type 2? 
@@ -56,7 +59,35 @@ The store wants to keep customer addresses. Propose two architectures for the CU
 **HINT:** search type 1 vs type 2 slowly changing dimensions. 
 
 ```
-Your answer...
+Slowly Changing Dimensions (SCD) will allow for the historical data to either be preserved or overwritten as customer addresses are updated in the customer database. 
+
+Type 1 SCD overwrites the previous value. So in this case, the new customer address would overwrite the old one, and no past information would be saved, and therefore no historical data analysis would be possible. The benefits of this approach is that is needs a lower amount of storage, and there is only one address attached to each customer ID, however, it could pose issues with tracking past order history. 
+
+TYPE 1 CUSTOMER_ADDRESS TABLE:
+customer_ID
+street address
+city
+province
+country
+postal code
+date_updated
+
+
+Type 2 SCD adds a new row with the new value and therefore retains the historical value. This will allow for the full customer address history to be retained and accessed over time. This method takes up more storage, and needs more organization as there will sometimes be multiple addresses attached to a customer ID. However, it also allows for historical and geographical analysis of sales, as well as investigation of past order addresses. 
+
+TYPE 2 CUSTOMER_ADDRESS TABLE:
+customer_ID
+street address
+city
+province
+country
+postal code
+start_date
+end_date
+date_updated
+current_address (BOOLEAN)
+
+
 ```
 
 ***
