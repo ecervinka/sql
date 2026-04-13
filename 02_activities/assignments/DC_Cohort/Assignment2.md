@@ -47,8 +47,11 @@ There are several tools online you can use, I'd recommend [Draw.io](https://www.
 
 **HINT:** You do not need to create any data for this prompt. This is a conceptual model only. 
 
+![My Image](images/Cervinka_BookSQL1.png)
+
 #### Prompt 2
 We want to create employee shifts, splitting up the day into morning and evening. Add this to the ERD.
+![My Image](images/Cervinka_BookSQL_Shifts.png)
 
 #### Prompt 3
 The store wants to keep customer addresses. Propose two architectures for the CUSTOMER_ADDRESS table, one that will retain changes, and another that will overwrite. Which is type 1, which is type 2? 
@@ -56,7 +59,35 @@ The store wants to keep customer addresses. Propose two architectures for the CU
 **HINT:** search type 1 vs type 2 slowly changing dimensions. 
 
 ```
-Your answer...
+Slowly Changing Dimensions (SCD) will allow for the historical data to either be preserved or overwritten as customer addresses are updated in the customer database. 
+
+Type 1 SCD overwrites the previous value. So in this case, the new customer address would overwrite the old one, and no past information would be saved, and therefore no historical data analysis would be possible. The benefits of this approach is that is needs a lower amount of storage, and there is only one address attached to each customer ID, however, it could pose issues with tracking past order history. 
+
+TYPE 1 CUSTOMER_ADDRESS TABLE:
+customer_ID
+street address
+city
+province
+country
+postal code
+date_updated
+
+
+Type 2 SCD adds a new row with the new value and therefore retains the historical value. This will allow for the full customer address history to be retained and accessed over time. This method takes up more storage, and needs more organization as there will sometimes be multiple addresses attached to a customer ID. However, it also allows for historical and geographical analysis of sales, as well as investigation of past order addresses. 
+
+TYPE 2 CUSTOMER_ADDRESS TABLE:
+customer_ID
+street address
+city
+province
+country
+postal code
+start_date
+end_date
+date_updated
+current_address (BOOLEAN)
+
+
 ```
 
 ***
@@ -191,5 +222,18 @@ Consider, for example, concepts of labour, bias, LLM proliferation, moderating c
 
 
 ```
-Your thoughts...
+Sorry about this! I totally missed this once I started to work on the SQL section.
+My thoughts:
+
+To be honest, this article had me feeling a bit existential about the entire point or end goal of AI implementation. The use of AI, especially LLMs, has been a huge topic of discussion with my committee members and I over the past year. We’ve settled on me committing not to use AI in the writing of my dissertation at all, both for concerns about my cognitive development and expertise, but also concerns regarding intellectual property in an ever-evolving data surveillance landscape.
+
+The more I learn about AI systems operate, the more troubling these concerns become. Much of AI applications rely on the exploitation of human labour for profit (e.g., in this article, the labour used for labelling images; or the use of online books to train LLMs), I question what the overall purpose of the technology is. It clearly devalues human labour, especially creative practices such as writing or art, and for what, the sake of efficiency? I continue to come back to what I tell my writing students: “why would I want to read something that someone did not write?” 
+
+As I continue to be involved in the administration of writing-centred undergraduate courses, evidence supporting my concerns grow. I’ve recently worked in a course that’s transitioned to all in-person writing exercises and we can see that students are seriously struggling with writing practices. When LLMs have been used to generate their assignments through their adolescent years, there is a clear lack of reading and writing skills manifesting when they are required to think and elucidate their ideas on the spot. 
+
+Furthermore, when LLMs are used to complete course assignments, its biases are infused in = the summaries they’re generating to work from as well as the writing they are submitting. Rather than fostering critical engagement or encouraging originality in thought, the practice is moving academic work towards homogeneity. Then, when we think longer term about the data and content that AI systems will continue to be trained upon, I’m left wondering how human knowledge will continue to evolve, as human ingenuity and imagination has long been the key to discovery and the future of research. 
+
+All that to say, I don’t have a solution to any of these thoughts, but I keep thinking about the robot folding towels, and I wonder what the point is of training robots to do something that we have mastered. I think about consumer products such as the NEO robot. As humans, we have long mastered caregiving and mutual support. But now, by introducing a robot replace us, we undervalue care work and the social, ethical and emotional value it holds. While I can appreciate the intellectual challenge of trying to model these intricate processes artificially and innovate, I am left questioning to what end does it serve humanity as a whole, other than taking away jobs, and removing the work and processes that people find value in for the sake of efficiency and profit? 
+
+
 ```
